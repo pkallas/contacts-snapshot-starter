@@ -43,13 +43,37 @@ context('Contacts Database Functions', function () {
       .then(() => {
         return contacts.findAll()
         .then(allContacts => {
-          expect(allContacts).eql([
+          expect(allContacts).to.eql([
             { id: 1, first_name: 'Jared', last_name: 'Grippe' },
             { id: 2, first_name: 'Tanner', last_name: 'Welsh' },
             { id: 3, first_name: 'NeEddra', last_name: 'James' },
           ]);
         });
       });
+    });
+  });
+
+  describe('findById', function () {
+
+    it('Should return undefined if there is no contact with that id', function () {
+      return contacts.findById(1)
+      .then(contact => {
+        expect(contact).to.be.undefined;
+      });
+    });
+
+    it('Should return the contact with matching id', function () {
+      return db.seedContacts()
+      .then(() => {
+        return contacts.findById(2)
+        .then(contact => {
+          expect(contact).to.eql({ first_name: 'Tanner', last_name: 'Welsh', id: 2, });
+        });
+      });
+    });
+
+    it('Should throw an error when not given an integer', function () {
+      return expect(contacts.findById('Patrick')).to.eventually.be.rejected;
     });
   });
 });
