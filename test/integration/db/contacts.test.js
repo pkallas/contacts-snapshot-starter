@@ -76,4 +76,23 @@ context('Contacts Database Functions', function () {
       return expect(contacts.findById('Patrick')).to.eventually.be.rejected;
     });
   });
+
+  describe('destroy', function () {
+
+    it('Should remove a contact with the given id', function () {
+      let allContactsLength = 0;
+      return db.seedContacts()
+      .then(() => {
+        return contacts.findAll()
+        .then(allContacts => {
+          allContactsLength = allContacts.length;
+          return contacts.destroy(1)
+          .then(() => contacts.findAll())
+          .then(allContacts => {
+            expect(allContacts.length).to.eql(allContactsLength - 1);
+          });
+        });
+      });
+    });
+  });
 });
