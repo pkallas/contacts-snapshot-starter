@@ -1,5 +1,18 @@
-const pgp = require('pg-promise')();
-const connectionString = 'postgres://localhost:5432/contacts_test';
-const db = pgp(connectionString);
+process.env.DATABASE_URL = 'postgres://localhost:5432/contacts_test';
+const db = require('../../src/models/db/db');
 
-module.exports = db;
+
+const truncateContacts = () => {
+  return db.query(`TRUNCATE contacts RESTART IDENTITY`);
+};
+
+const seedContacts = () => {
+  return db.query(`INSERT INTO contacts (first_name, last_name)
+  VALUES ('Jared', 'Grippe'), ('Tanner', 'Welsh'), ('NeEddra', 'James')`);
+};
+
+module.exports = {
+  db,
+  truncateContacts,
+  seedContacts,
+};
