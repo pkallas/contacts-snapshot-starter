@@ -95,4 +95,37 @@ context('Contacts Database Functions', function () {
       });
     });
   });
+
+  describe('search', function () {
+
+    it('Should find all contacts matching the search term', function () {
+      return db.seedContacts()
+      .then(() => {
+        return contacts.search('Jared')
+        .then(foundContacts => {
+          expect(foundContacts).to.eql([{ first_name: 'Jared', last_name: 'Grippe', id: 1, }]);
+        });
+      });
+    });
+
+    it('Should find all contacts matching the search term', function () {
+      return db.seedContacts()
+      .then(() => {
+        return contacts.search('NeEddra')
+        .then(foundContacts => {
+          expect(foundContacts).to.eql([{ first_name: 'NeEddra', last_name: 'James', id: 3, }]);
+        });
+      });
+    });
+  });
+
+  it('Should return an empty array when no matches were found', function () {
+    return db.seedContacts()
+    .then(() => {
+      return contacts.search('There is no way anything will match this')
+      .then(foundContacts => {
+        expect(foundContacts).to.have.lengthOf(0);
+      });
+    });
+  });
 });
