@@ -64,5 +64,16 @@ context('Testing Routes', function () {
         expect(error.response).to.have.status(404);
       });
     });
+
+    describe('/contacts/search', function () {
+
+      it('Should render the search page', function () {
+        return request(app)
+        .get('/contacts/search?q=Jared')
+        .then(response => {
+          expect(response).to.have.status(200);
+        });
+      });
+    });
   });
 });
