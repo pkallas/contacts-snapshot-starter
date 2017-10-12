@@ -5,12 +5,14 @@ chai.use(chaiAsPromised);
 const db = require('../../helpers/db');
 const contacts = require('../../../src/models/contacts');
 
-beforeEach(() => {
-  return db.truncateContacts()
-  .then(() => console.log('Testing Contacts table has been truncated'));
-});
 
 context('Contacts Database Functions', function () {
+
+  beforeEach(() => {
+    return db.truncateContacts()
+    .then(() => console.log('Testing Contacts table has been truncated'));
+  });
+
   describe('Create', function () {
 
     it('Should add Patrick Kallas as a contact', function () {
